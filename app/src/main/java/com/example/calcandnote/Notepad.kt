@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.calcandnote.ui.theme.CalcAndNoteTheme
 
 @Composable
-fun NotepadScreen(onBack: (() -> Unit)? = null) {
+fun NotepadScreen(onBack: () -> Unit) {
     var text by remember { mutableStateOf("") }
     var fontSize by remember { mutableFloatStateOf(18f) }
     var fontWeight by remember { mutableStateOf(FontWeight.Normal) }
@@ -151,9 +151,23 @@ fun NotepadScreen(onBack: (() -> Unit)? = null) {
                 unfocusedIndicatorColor = Color.DarkGray
             )
         )
-        onBack?.let {
-            Button(onClick = it, modifier = Modifier.padding(8.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                modifier = Modifier.width(150.dp),
+                onClick = onBack
+            ) {
                 Text("Back to Menu")
+            }
+            Button(
+                modifier = Modifier.width(150.dp),
+                onClick = { text = "" }
+            ) {
+                Text("New Note")
             }
         }
     }
@@ -163,6 +177,6 @@ fun NotepadScreen(onBack: (() -> Unit)? = null) {
 @Composable
 fun NotepadPreview() {
     CalcAndNoteTheme {
-        NotepadScreen()
+        NotepadScreen(onBack = {})
     }
 }
